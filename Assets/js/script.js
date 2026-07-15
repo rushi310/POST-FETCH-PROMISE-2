@@ -32,7 +32,6 @@ function createSingleBlogCard(blog) {
 
 function createPostCard(arr) {
     let result = "";
-    // jsonplaceholder returns 100 posts - just show the first 10 so the page isn't huge
     const limited = arr.slice(0, 10);
     for (let i = limited.length - 1; i >= 0; i--) {
         result += createSingleBlogCard(limited[i]);
@@ -45,7 +44,6 @@ function fetchPosts() {
     fetch(POST_URL)
         .then((res) => res.json())
         .then((response) => {
-            // no "success" wrapper here - response IS the array of posts
             createPostCard(response);
         })
         .catch((error) => {
@@ -70,7 +68,6 @@ function onPostSubmit(event) {
     })
         .then((res) => res.json())
         .then((newBlog) => {
-            // jsonplaceholder doesn't really save it, but it echoes back a fake new record
             postContainer.insertAdjacentHTML("afterbegin", createSingleBlogCard(newBlog));
             postForm.reset();
             snackbar("Blog created successfully", "success");
@@ -139,7 +136,6 @@ function onRemove(element) {
     spinner.classList.remove("d-none");
     fetch(`${POST_URL}/${blogId}`, { method: "DELETE" })
         .then(() => {
-            // jsonplaceholder DELETE just returns an empty {} - no success flag to check
             blogCard.remove();
             snackbar("Blog deleted successfully", "success");
         })
